@@ -6,7 +6,8 @@ page
   ctx.body = '404 page!'
 })
 .get('/helloworld', async ( ctx )=>{
-  ctx.body = 'helloworld page!'
+  console.log(2222)
+  ctx.body = 'helloworld page222!'
 })
 
 
