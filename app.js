@@ -1,24 +1,44 @@
 const Koa = require('koa')
-const convert = require('koa-convert')
-const loggerGenerator  = require('./middleware/logger')
-// const loggerAsync  = require('./middleware/logger_async')
-const Router = require('koa-router')
 const app = new Koa()
-require('./data/config2');
+const views = require('koa-views')
+const json = require('koa-json')
+const onerror = require('koa-onerror')
+const bodyparser = require('koa-bodyparser')
+const logger = require('koa-logger')
 
-// 使用中间件
-app.use(convert(loggerGenerator()))
-// app.use(loggerAsync());
+const index = require('./routes/index')
+const users = require('./routes/users')
 
-let router = require('./route/index');
+// error handler
+onerror(app)
 
-// 加载路由中间件
-app.use(router.routes()).use(router.allowedMethods())
+// middlewares
+app.use(bodyparser({
+  enableTypes:['json', 'form', 'text']
+}))
+app.use(json())
+app.use(logger())
+app.use(require('koa-static')(__dirname + '/public'))
 
+app.use(views(__dirname + '/views', {
+  extension: 'pug'
+}))
 
-app.use( async ( ctx ) => {
-  ctx.body = 'hello koa2'
+// logger
+app.use(async (ctx, next) => {
+  const start = new Date()
+  await next()
+  const ms = new Date() - start
+  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
-app.listen(3000)
-console.log('[demo] start-quick is starting at port 3000');
+// routes
+app.use(index.routes(), index.allowedMethods())
+app.use(users.routes(), users.allowedMethods())
+
+// error-handling
+app.on('error', (err, ctx) => {
+  console.error('server error', err, ctx)
+});
+
+module.exports = app
