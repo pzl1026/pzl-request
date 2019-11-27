@@ -4,6 +4,7 @@ const loggerGenerator  = require('./middleware/logger')
 // const loggerAsync  = require('./middleware/logger_async')
 const Router = require('koa-router')
 const app = new Koa()
+require('./data/config2');
 
 // 使用中间件
 app.use(convert(loggerGenerator()))
