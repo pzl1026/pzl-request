@@ -19,10 +19,5 @@ router.get('/json', async (ctx, next) => {
   }
 })
 
-router.post('/login', async (ctx, next) => {
-    let postData = ctx.request.body
-    let data = await uc.login(postData);
-    ctx.body = data;
-});
 
 module.exports = router
