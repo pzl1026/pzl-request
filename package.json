@@ -5,10 +5,11 @@
   "scripts": {
     "start": "node bin/www",
     "dev": "./node_modules/.bin/nodemon bin/www",
-    "prd": "pm2 start bin/www --watch",
+    "prd": "pm2 start bin/www --watch --no-daemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "crypto": "^1.0.1",
     "debug": "^4.1.1",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
@@ -18,10 +19,13 @@
     "koa-onerror": "^4.1.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
-    "koa-views": "^6.2.0",
-    "pug": "^2.0.3"
+    "mysql2": "^2.0.1",
+    "pug": "^2.0.3",
+    "sequelize": "^5.21.2",
+    "validator": "^12.1.0"
   },
   "devDependencies": {
+    "koa-views": "^6.2.1",
     "nodemon": "^1.19.1"
   }
 }

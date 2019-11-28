@@ -6,8 +6,12 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
+global.CONF = require('./config');
 const index = require('./routes/index')
 const users = require('./routes/users')
+
+require('./app/model/connection');
+require('./app/model/user');
 
 // error handler
 onerror(app)
@@ -31,6 +35,7 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
+
 
 // routes
 app.use(index.routes(), index.allowedMethods())
