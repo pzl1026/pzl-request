@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const defineUser = require('./user');
-const COMMOM = require(CONF._HELPER_COMMON_DIR_);
+const defineUserInfo = require('./userInfo');
 
 let sequelize = new Sequelize('mysql', 'root', '123456', {
     host: 'localhost',
@@ -12,21 +12,10 @@ let sequelize = new Sequelize('mysql', 'root', '123456', {
       idle: 10000
     },
 });
-
+userModel = defineUser(sequelize);
 global.models = {
-  userModel: defineUser(sequelize)
+  userModel,
+  userInfoModel:  defineUserInfo(sequelize, userModel)
 };
 
-
-function createUser () {
-  models.userModel.sync({force: true}).then(function () {
-      // 已创建数据表
-      return models.userModel.create({
-          realname: 'pzl',
-          phone: '17302552919',
-          password: COMMOM.cryptPwd('123456')
-      });
-  });
-}
-createUser();
 

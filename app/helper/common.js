@@ -42,6 +42,14 @@ function msg2Json (code, msg, data) {
     }
 }
 
+function msg2404 (msg) {
+    return {
+        code: '404', 
+        msg, 
+        data: null
+    }
+}
+
 module.exports = {
     cryptPwd,
     parsePostData,

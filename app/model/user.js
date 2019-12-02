@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
-
-let userModel = null;
+const COMMOM = require(CONF._HELPER_COMMON_DIR_);
 
 const userFields = {
     realname: {
@@ -26,11 +25,16 @@ function defineUser (seq) {
         {
             freezeTableName: true // Model 对应的表名将与model名相同
         });
+    model.sync({force: false}).then(() => {
+        console.log('user2 table已经强制创建');
+        // model.create({
+        //     realname: 'pzl',
+        //     phone: '17302552919',
+        //     password: COMMOM.cryptPwd('123456')
+        // });
+    });
     return model;
 }
-
-
-
 
 
 module.exports = defineUser;
